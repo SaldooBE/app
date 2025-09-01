@@ -1,0 +1,121 @@
+# Saldoo Project Requirements
+
+## Overzicht  
+Saldoo is een **whitelabel SaaS-platform voor Belgische boekhoudkantoren**.  
+Het biedt **real-time financiële dashboards** aan KMO-ondernemers, gekoppeld aan hun boekhoudsoftware (startend met Exact Online).  
+Elk kantoor krijgt een eigen subdomein zoals `{kantoornaam}.saldoo.be` en kan de look & feel volledig in eigen branding configureren.  
+
+Saldoo fungeert als een **financiële copiloot**:  
+- Toont KPI’s en tussentijdse cijfers zoals een balans & Resultatenrekening  
+- Communiceert helder naar niet-financiële ondernemers  
+- Verstuurd meldingen en fiscale reminders  
+- Automatiseert veelgestelde vragen en kantoor-updates  
+
+👉 Alle UI moet in **het Nederlands** zijn.  
+
+---
+
+## Gebruikers
+1. **Accountants (Boekhoudkantoren)**  
+   - Beheren hun klanten binnen Saldoo  
+   - Stellen branding in (logo + hoofdkleur) 
+   - Zien een overzicht van alle klanten die actief zijn op het saldoo-platform 
+   - Kunnen dashboards van klanten inzien (read-only)  
+
+2. **Ondernemers (KMO-klanten)**  
+   - Loggen in op hun eigen dashboard  
+   - Zien KPI’s, grafieken, fiscale deadlines en FAQ  
+   - Kunnen geen data aanpassen (enkel lezen)  
+
+---
+
+## Core Features (MVP)
+
+### 1. Authenticatie & Multitenancy
+- Supabase authenticatie (email/wachtwoord, later uitbreidbaar naar SSO)  
+- Multitenancy via subdomeinen: `{kantoornaam}.saldoo.be`  
+- Rollen: Accountant vs. Ondernemer  
+- Ondernemers zien enkel hun eigen data  
+
+### 2. Onboarding & Branding
+- Accountants configureren branding (logo + hoofdkleur + contrastkleur)  
+- Whitelabeling toegepast op volledig dashboard (logo in header, themakleuren in UI)  
+
+### 3. Exact Online Koppeling
+- **Fase 1**: werken met **dummy/testdata** (JSON)  
+- **Toekomst**: koppeling via Exact Online API  
+- Te berekenen KPI’s:  
+  - Omzet  
+  - Uitgaven  
+  - Nettoresultaat  
+  - Brutomarge  
+  - Belastingprognose  
+
+### 4. Dashboard Ondernemer
+- KPI-cards bovenaan  
+- Grafieken:  
+  - Lijngrafiek: Omzet, Uitgaven, Nettoresultaat per maand  
+  - Donutgrafiek: Uitgaven per categorie  
+- Tooltips in het Nederlands  
+- Responsief (desktop/tablet/mobiel), maar wel geoptimaliseerd voor desktop 
+- Fiscale Kalender met deadlines (btw, vennootschapsbelasting, voorafbetalingen, …) 
+    Pushmeldingen en reminders in het Nederlands  
+
+### 5. Mijn Cijfers
+- Tussentijdse balans (vereenvoudigd)  
+- Resultatenrekening (vereenvoudigd)  
+- Heldere labels en uitleg in begrijpelijk Nederlands  
+
+### 6. FAQ & Communicatie
+- FAQ-cards met veelgestelde vragen (bv. “Wanneer moet ik mijn btw betalen?”, “Hoeveel belastingen moet ik opzijzetten?”)  
+- Accountants kunnen berichten posten (reminders, updates)  
+- Ondernemers kunnen vragen stellen via een AI-chatbot (fase 2, niet MVP)  
+
+### 7. Whitelabel Instellingen
+- Kantoor kiest logo + hoofdkleur + contrastkleur 
+- Default theme: donkerblauw, wit, zwart  
+- Consistente toepassing op alle UI-componenten  
+
+---
+
+## Technische Stack
+- **Frontend**: Next.js (App Router), React, TypeScript  
+- **Styling**: Tailwind CSS + shadcn/ui componenten
+- **Backend**: Supabase (auth, DB, Row Level Security)  
+- **Hosting**: Vercel  
+- **Betalingen**: Stripe (toekomst, niet MVP)  
+
+---
+
+## UX / UI Vereisten
+- Modern, clean, professioneel design  
+- KPI-cards: afgeronde hoeken, zachte schaduwen, duidelijke typografie  
+- Grafieken: responsief, labels & tooltips in Nederlands  
+- Buttons/navigatie: consistent gebruik van whitelabel hoofdkleur  
+- Error states: duidelijke NL-meldingen (“Geen gegevens beschikbaar”, “Er is iets misgegaan, probeer later opnieuw”)  
+- Mobile-first responsief ontwerp  
+
+---
+
+## Error Handling & Edge Cases
+- Bij fout Exact Online → toon fallback dummydata + melding in Nederlands  
+- Geen data → toon lege state met uitleg  
+- Ongeautoriseerde toegang → redirect naar login met foutmelding in Nederlands  
+- Ongeldig subdomein → toon pagina “Kantoor niet gevonden”  
+
+---
+
+## Sprint Plan (30 dagen MVP)
+- **Week 1**: Authenticatie & Multitenancy, Branding  
+- **Week 2**: Exact Online dummydata, Klantenbeheer  
+- **Week 3**: Dashboard (KPI-cards, grafieken, responsief)  
+- **Week 4**: Mijn Cijfers + FAQ (basis), Fiscale Kalender, finetuning & deploy  
+
+---
+
+## Key Rules
+- **Alle UI in het Nederlands**  
+- **Whitelabel branding overal toegepast**  
+- **Subdomeinen per kantoor** (`{kantoornaam}.saldoo.be`)  
+- **Ondernemers zien enkel hun eigen data**  
+- **Accountants enkel lezen, niet wijzigen**  
